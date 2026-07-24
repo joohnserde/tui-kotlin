@@ -3,8 +3,8 @@ package tui.kotlin.component
 import java.awt.Color
 import tui.kotlin.AnsiEscape
 
-class TextStyle(private val _stylish: StringBuilder) {
-    
+internal class TextStyle(private val _stylish: StringBuilder) {
+
     constructor() : this(_stylish = StringBuilder())
 
     val stylish: String
