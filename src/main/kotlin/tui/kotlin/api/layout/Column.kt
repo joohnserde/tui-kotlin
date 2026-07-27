@@ -41,9 +41,9 @@ class Column(
             charTopRight = charTopRight,
             charBottomLeft = charBottomLeft,
             charBottomRight = charBottomRight,
-        )
+        ).buildBorderLine()
         layer.stringLayer.append(
-            border.buildHorizontalLine().content.toString()
+            border.content.toString()
         )
     }
 

@@ -29,18 +29,8 @@ internal class Text(
 
     fun buildText(): RawContent {
 
-        val navCursorToLine: Cursor = Cursor()
-        navCursorToLine.apply {
-            saveCursor()
-            hideCursor()
-            moveTo(offset)
-        }
-
-        val navCursorBack: Cursor = Cursor()
-        navCursorBack.apply {
-            restoreCursor()
-            showCursor()
-        }
+        val navCursorMove: Cursor = Cursor()
+        navCursorMove.moveTo(offset)
 
         val textStyle: TextStyle = TextStyle()
         textStyle.apply {
@@ -53,9 +43,8 @@ internal class Text(
         }
 
         return RawContent().apply {
-            add(navCursorToLine.cursorInstruc)
+            add(navCursorMove.cursorInstruc)
             add(textStyle.stylish + textString)
-            add(navCursorBack.cursorInstruc)
         }
     }
 }
