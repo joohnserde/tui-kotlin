@@ -6,6 +6,7 @@ class Layer {
 
     internal val stringLayer: StringBuilder = StringBuilder()
 
-    fun getRawLayer() = stringLayer.toString()
+    val getRawLayer: String
+        get() = stringLayer.toString()
 
 }

@@ -13,34 +13,24 @@ internal class Text(
 
     val offset: Offset,
 
-    val italic: Boolean = false,
+    val italic: Boolean,
 
-    val bold: Boolean = false,
+    val bold: Boolean,
 
-    val underLine: Boolean = false,
+    val underLine: Boolean,
 
-    val fgColor: Color = Color.WHITE,
+    val fgColor: Color,
 
-    val bgColor: Color = Color(0, 0, 0, 0),
+    val bgColor: Color,
 
-    val strikeThrough: Boolean = false
+    val strikeThrough: Boolean
 ) {
 
 
     fun buildText(): RawContent {
 
-        val navCursorToLine: Cursor = Cursor()
-        navCursorToLine.apply {
-            saveCursor()
-            hideCursor()
-            moveTo(offset)
-        }
-
-        val navCursorBack: Cursor = Cursor()
-        navCursorBack.apply {
-            restoreCursor()
-            showCursor()
-        }
+        val navCursorMove: Cursor = Cursor()
+        navCursorMove.moveTo(offset)
 
         val textStyle: TextStyle = TextStyle()
         textStyle.apply {
@@ -52,9 +42,9 @@ internal class Text(
             if (strikeThrough) strikeThrough()
         }
 
-        return RawContent()
-            .add(navCursorToLine.cursorInstruc)
-            .add(textStyle.stylish + textString)
-            .add(navCursorBack.cursorInstruc)
+        return RawContent().apply {
+            add(navCursorMove.cursorInstruc)
+            add(textStyle.stylish + textString)
+        }
     }
 }

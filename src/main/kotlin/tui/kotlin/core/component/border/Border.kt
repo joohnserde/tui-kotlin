@@ -1,77 +1,76 @@
 package tui.kotlin.component
 
 import tui.kotlin.TermManager
+import tui.kotlin.Offset
+import tui.kotlin.RawContent
+import tui.kotlin.exception.BorderException
+import tui.kotlin.navigation.Cursor
 
-class Border(
+internal class Border(
 
-    val charHorizontal: String,
+    val charHorizontal: Char,
 
-    val charVertical: String,
+    val charVertical: Char,
 
-    val charTopLeft: String,
+    val charTopLeft: Char,
 
-    val charTopRight: String,
+    val charTopRight: Char,
 
-    val charBottomLeft: String,
+    val charBottomLeft: Char,
 
-    val charBottomRight: String,
+    val charBottomRight: Char,
 ) {
 
-    constructor() : this("#", "#", "#", "#", "#", "#")
-
-    val termDimension = TermManager().getTerminalDimension()
-
-    val heigth = termDimension.first
-
-    val width = termDimension.second
-
-    val areaDimension = heigth.times(width)
-
-    /*fun verticalBorderLine(singleLine: Boolean?): StringBuilder {
-
-        val sbLine: StringBuilder = StringBuilder()
-
-        return sbLine
-    } */
-
-    fun horizontalBorderLine(singleLine: Boolean?): StringBuilder {
-
-        val sbLine: StringBuilder = StringBuilder()
-
-        var tempWidth: Int = width - 1
-
-        while (!tempWidth.equals(1) && tempWidth <= width) {
-            sbLine.append(charHorizontal)
-            tempWidth--
-        }
-
-        return sbLine
+    fun buildBorderLine(): RawContent = RawContent().apply {
+            add(buildHorizontalLine().content)
+            add(buildVerticalLine().content)
     }
 
-    fun borderLine(): StringBuilder {
+    fun buildHorizontalLine(): RawContent {
+        val (rows, cols) = TermManager().getTerminalDimension()
 
-        var tempDimension = areaDimension
+        val cursorNavToUp = Cursor()
+        cursorNavToUp.moveTo(Offset(1, 1))
 
-        val horizontalBorder = horizontalBorderLine(null).toString()
+        val cursorNavToDown = Cursor()
+        cursorNavToDown.moveTo(Offset(rows, 1))
 
-        val sbBuff = StringBuilder()
-        
-        while (!tempDimension.equals(0)) {
-            sbBuff.append("▒")
-            tempDimension--
+        val horizontalLine = charHorizontal.toString().repeat(cols)
+
+        return RawContent().apply {
+            add(cursorNavToUp.cursorInstruc)
+            add(horizontalLine)
+            add(cursorNavToDown.cursorInstruc)
+            add(horizontalLine)
+        }
+    }
+
+    fun buildVerticalLine(): RawContent {
+        val (rows, cols) = TermManager().getTerminalDimension()
+
+        val rawContent = RawContent()
+
+        var tmpSizeRows = rows
+
+        try {
+            do {
+                rawContent.add(
+                    Cursor().apply {
+                        moveTo(Offset(tmpSizeRows, 1))
+                    }.cursorInstruc.plus(charVertical)
+                )
+                rawContent.add(
+                    Cursor().apply {
+                        moveTo(Offset(tmpSizeRows, cols))
+                    }.cursorInstruc.plus(charVertical)
+                )
+                tmpSizeRows--
+            } while (!tmpSizeRows.equals(0))
+        } catch (exception: BorderException) {
+            throw exception
         }
 
-        sbBuff.setRange(
-            1,
-            (width - 1),
-            horizontalBorder
-        )
-        sbBuff.setRange(
-            (areaDimension - width + 1),
-            (areaDimension - 1),
-            horizontalBorder
-        )
-        
-        return sbBuff
+        return rawContent
     }
+
 }

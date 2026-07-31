@@ -1,10 +1,13 @@
 package tui.kotlin
 
-internal class RawContent(val content: String) {
+internal class RawContent(private val _content: StringBuilder) {
 
-    constructor() : this(String())
+    constructor() : this(StringBuilder())
 
-    fun add(string: String): RawContent {
-        return RawContent(this.content.plus(string))
+    val content: String
+        get() = _content.toString()
+
+    fun add(string: String) {
+        _content.append(string)
     }
 }
