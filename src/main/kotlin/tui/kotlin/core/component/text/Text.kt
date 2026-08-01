@@ -1,7 +1,7 @@
 package tui.kotlin.component
 
 import tui.kotlin.navigation.Cursor
-import tui.kotlin.component.TextStyle
+import tui.kotlin.style.CharStyle
 import java.awt.Color
 import tui.kotlin.Offset
 import tui.kotlin.TermManager
@@ -32,19 +32,23 @@ internal class Text(
         val navCursorMove: Cursor = Cursor()
         navCursorMove.moveTo(offset)
 
-        val textStyle: TextStyle = TextStyle()
-        textStyle.apply {
-            fgColor(fgColor)
-            bgColor(bgColor)
-            if (italic) italic()
-            if (bold) bold()
-            if (underLine) underLine()
-            if (strikeThrough) strikeThrough()
-        }
+        val charStyle: CharStyle = CharStyle()
 
         return RawContent().apply {
             add(navCursorMove.cursorInstruc)
-            add(textStyle.stylish + textString)
+
+            charStyle.apply {
+                add(fgColor(fgColor))
+                add(bgColor(bgColor))
+                if (italic) add(italic())
+                if (bold) add(bold())
+                if (underLine) add(underLine())
+                if (strikeThrough) add(strikeThrough())
+            }
+
+            add(textString)
+
+            add(charStyle.resetStyle())
         }
     }
 }
