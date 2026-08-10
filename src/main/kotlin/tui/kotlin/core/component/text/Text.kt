@@ -26,17 +26,14 @@ internal class Text(
     val strikeThrough: Boolean
 ) {
 
-
     fun buildText(): RawContent {
 
-        val navCursorMove: Cursor = Cursor()
-        navCursorMove.moveTo(offset)
+        val cursorNav: Cursor = Cursor()
 
         val charStyle: CharStyle = CharStyle()
 
         return RawContent().apply {
-            add(navCursorMove.cursorInstruc)
-
+            add(cursorNav.moveTo(offset))
             charStyle.apply {
                 add(fgColor(fgColor))
                 add(bgColor(bgColor))
@@ -45,9 +42,7 @@ internal class Text(
                 if (underLine) add(underLine())
                 if (strikeThrough) add(strikeThrough())
             }
-
             add(textString)
-
             add(charStyle.resetStyle())
         }
     }

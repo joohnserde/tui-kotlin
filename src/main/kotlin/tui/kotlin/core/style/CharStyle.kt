@@ -3,49 +3,19 @@ package tui.kotlin.style
 import java.awt.Color
 import tui.kotlin.AnsiEscape
 
-internal class CharStyle(private val _stylish: StringBuilder) {
+internal class CharStyle {
 
-    constructor() : this(_stylish = StringBuilder())
+    fun resetStyle() = AnsiEscape.TextStyle.RESET_STYLE
 
-    fun resetStyle(): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.RESET_STYLE
-        )
-    }
+    fun bold() = AnsiEscape.TextStyle.BOLD
 
-    fun bold(): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.BOLD
-        )
-    }
+    fun italic() = AnsiEscape.TextStyle.ITALIC
 
-    fun italic(): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.ITALIC
-        )
-    }
+    fun underLine() = AnsiEscape.TextStyle.UNDERLINE
 
-    fun underLine(): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.UNDERLINE
-        )
-    }
+    fun strikeThrough() = AnsiEscape.TextStyle.STRIKETHROUGH
 
-    fun strikeThrough(): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.STRIKETHROUGH
-        )
-    }
+    fun fgColor(color: Color) = AnsiEscape.TextStyle.fgColor(color)
 
-    fun fgColor(color: Color): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.fgColor(color)
-        )
-    }
-
-    fun bgColor(color: Color): StringBuilder {
-        return _stylish.append(
-            AnsiEscape.TextStyle.bgColor(color)
-        )
-    }
+    fun bgColor(color: Color) = AnsiEscape.TextStyle.bgColor(color)
 }

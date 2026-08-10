@@ -27,50 +27,44 @@ internal class Border(
     }
 
     fun buildHorizontalLine(): RawContent {
+
+        val cursorNav = Cursor()
+
         val (rows, cols) = TermManager().getTerminalDimension()
-
-        val cursorNavToUp = Cursor()
-        cursorNavToUp.moveTo(Offset(1, 1))
-
-        val cursorNavToDown = Cursor()
-        cursorNavToDown.moveTo(Offset(rows, 1))
 
         val horizontalLine = charHorizontal.toString().repeat(cols)
 
         return RawContent().apply {
-            add(cursorNavToUp.cursorInstruc)
+            add(cursorNav.moveTo(Offset(1, 1)))
             add(horizontalLine)
-            add(cursorNavToDown.cursorInstruc)
+            add(cursorNav.moveTo(Offset(rows, 1)))
             add(horizontalLine)
         }
     }
 
     fun buildVerticalLine(): RawContent {
+
+        val cursorNav = Cursor()
+
         val (rows, cols) = TermManager().getTerminalDimension()
 
         val rawContent = RawContent()
 
         var tmpSizeRows = rows
 
-        try {
+        return try {
             do {
-                rawContent.add(
-                    Cursor().apply {
-                        moveTo(Offset(tmpSizeRows, 1))
-                    }.cursorInstruc.plus(charVertical)
-                )
-                rawContent.add(
-                    Cursor().apply {
-                        moveTo(Offset(tmpSizeRows, cols))
-                    }.cursorInstruc.plus(charVertical)
-                )
+                rawContent.apply {
+                    cursorNav.apply {
+                        add(moveTo(Offset(tmpSizeRows, 1)).plus(charVertical))
+                        add(moveTo(Offset(tmpSizeRows, cols)).plus(charVertical))
+                    }
+                }
                 tmpSizeRows--
             } while (!tmpSizeRows.equals(0))
+            rawContent
         } catch (exception: BorderException) {
             throw exception
         }
-
-        return rawContent
     }
-
 }
