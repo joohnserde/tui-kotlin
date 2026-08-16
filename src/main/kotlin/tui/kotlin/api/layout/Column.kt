@@ -1,13 +1,15 @@
 package tui.kotlin.layout
 
+import tui.kotlin.Arrangement
 import tui.kotlin.TermManager
 import tui.kotlin.Layer
 import tui.kotlin.component.Text
-import tui.kotlin.component.Border
+import tui.kotlin.core.component.Border
 import tui.kotlin.navigation.Cursor
 import tui.kotlin.layout.Layout
 import java.awt.Color
 import tui.kotlin.Offset
+import tui.kotlin.exception.BorderException
 
 class Column(
 
@@ -34,7 +36,10 @@ class Column(
         charTopLeft: Char = '#',
         charTopRight: Char = '#',
         charBottomLeft: Char = '#',
-        charBottomRight: Char = '#'
+        charBottomRight: Char = '#',
+        arrangement: Arrangement,
+        fgColor: Color = Color.WHITE,
+        bgColor: Color = Color(0,0,0,0)
     ) {
         val border = Border(
             charHorizontal = charHorizontal,
@@ -43,10 +48,13 @@ class Column(
             charTopRight = charTopRight,
             charBottomLeft = charBottomLeft,
             charBottomRight = charBottomRight,
-        ).buildBorderLine()
-        layer.stringLayer.append(
-            border.content.toString()
+        ).buildBorder(
+            arrangement = arrangement,
+            fgColor = fgColor,
+            bgColor = bgColor
         )
+
+        layer.stringLayer.append(border.content)
     }
 
     //text
@@ -58,7 +66,7 @@ class Column(
         bold: Boolean = false,
         underLine: Boolean = false,
         fgColor: Color = Color.WHITE,
-        bgColor: Color = Color(0, 0, 0, 0),
+        bgColor: Color = Color(0,0,0,0),
         strikeThrough: Boolean = false
     ) {
         val text = Text(

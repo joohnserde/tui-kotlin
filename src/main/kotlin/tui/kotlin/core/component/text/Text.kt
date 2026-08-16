@@ -28,9 +28,9 @@ internal class Text(
 
     fun buildText(): RawContent {
 
-        val cursorNav: Cursor = Cursor()
+        val cursorNav = Cursor()
 
-        val charStyle: CharStyle = CharStyle()
+        val charStyle = CharStyle()
 
         return RawContent().apply {
             add(cursorNav.moveTo(offset))

@@ -1,10 +1,13 @@
-package tui.kotlin.component
+package tui.kotlin.core.component
 
+import tui.kotlin.Arrangement
 import tui.kotlin.TermManager
 import tui.kotlin.Offset
 import tui.kotlin.RawContent
 import tui.kotlin.exception.BorderException
 import tui.kotlin.navigation.Cursor
+import tui.kotlin.style.CharStyle
+import java.awt.Color
 
 internal class Border(
 
@@ -19,7 +22,37 @@ internal class Border(
     val charBottomLeft: Char,
 
     val charBottomRight: Char,
+
 ) {
+
+    fun buildBorder(
+        arrangement: Arrangement,
+        fgColor: Color,
+        bgColor: Color
+    ): RawContent {
+
+        val charStyle = CharStyle()
+
+        val border = RawContent()
+
+        return border.apply {
+            charStyle.apply {
+                add(fgColor(fgColor))
+                add(bgColor(bgColor))
+            }
+            when (arrangement) {
+
+                Arrangement.FULL -> add(buildBorderLine())
+
+                Arrangement.VERTICAL -> add(buildVerticalLine())
+
+                Arrangement.HORIZONTAL -> add(buildHorizontalLine())
+
+                else -> throw BorderException("apalah coba")
+            }
+            add(charStyle.resetStyle())
+        }
+    }
 
     fun buildBorderLine(): RawContent = RawContent().apply {
             add(buildHorizontalLine().content)
