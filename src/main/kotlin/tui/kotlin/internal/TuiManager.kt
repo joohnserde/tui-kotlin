@@ -2,8 +2,13 @@ package tui.kotlin
 
 import tui.kotlin.TermManager
 import tui.kotlin.layout.Layout
+import tui.kotlin.navigation.Cursor
 
-class TuiManager() {
+class TuiManager(
+
+    val cursor: Cursor = Cursor()
+
+) {
 
     fun write(
         layout: Layout,
@@ -11,9 +16,29 @@ class TuiManager() {
         buildCanvas: Boolean = true,
     ) {
 
+        writeMode(layout)
+
         if (clearScreen) TermManager().clearScreen()
         if (buildCanvas) layout.canvas(' ')
 
+        normalMode(layout)
+
         println(layout.layer.stringLayer)
     }
+
+
+    fun writeMode(layout: Layout) {
+
+        layout.layer.stringLayer.insert(
+            0, cursor.hideCursor().plus(cursor.saveCursor())
+        )
+    }
+
+    fun normalMode(layout: Layout) {
+
+        layout.layer.stringLayer.append(
+            cursor.restoreCursor().plus(cursor.showCursor())
+        )
+    }
+
 }

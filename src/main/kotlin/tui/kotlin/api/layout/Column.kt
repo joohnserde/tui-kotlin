@@ -4,6 +4,7 @@ import tui.kotlin.TermManager
 import tui.kotlin.Layer
 import tui.kotlin.component.Text
 import tui.kotlin.component.Border
+import tui.kotlin.navigation.Cursor
 import tui.kotlin.layout.Layout
 import java.awt.Color
 import tui.kotlin.Offset
@@ -21,6 +22,7 @@ class Column(
         val (heigth, width) = termManager.getTerminalDimension()
 
         val canvas = charCanvas.toString().repeat(heigth.times(width))
+
         layer.stringLayer.insert(0, canvas)
     }
 
