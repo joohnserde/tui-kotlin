@@ -19,18 +19,20 @@ class Column(
 
 ) : Layout {
 
+    val dimension = termManager.getTerminalDimension()
+
+    // component canvas
     override fun canvas(charCanvas: Char) {
-
-        val (heigth, width) = termManager.getTerminalDimension()
-
-        val canvas = charCanvas.toString().repeat(heigth.times(width))
-
-        layer.stringLayer.insert(0, canvas)
+        layer.stringLayer.insert(0, 
+            charCanvas.toString().repeat(
+                dimension.first.times(dimension.second)
+            )
+        )
     }
 
-    //border
-
+    // border
     fun border(
+        charBorder: Char = '#',
         charHorizontal: Char = '#',
         charVertical: Char = '#',
         charTopLeft: Char = '#',
@@ -41,13 +43,17 @@ class Column(
         fgColor: Color = Color.WHITE,
         bgColor: Color = Color(0,0,0,0)
     ) {
+
         val border = Border(
+            charBorder = charBorder,
             charHorizontal = charHorizontal,
             charVertical = charVertical,
             charTopLeft = charTopLeft,
             charTopRight = charTopRight,
             charBottomLeft = charBottomLeft,
             charBottomRight = charBottomRight,
+            height = dimension.first,
+            width = dimension.second
         ).buildBorder(
             arrangement = arrangement,
             fgColor = fgColor,
@@ -57,8 +63,8 @@ class Column(
         layer.stringLayer.append(border.content)
     }
 
-    //text
 
+    // text
     fun text(
         textString: String,
         offset: Offset,
