@@ -39,11 +39,10 @@ class Column(
         charTopRight: Char = '#',
         charBottomLeft: Char = '#',
         charBottomRight: Char = '#',
-        arrangement: Arrangement,
+        arrangement: Arrangement = Arrangement.FULL,
         fgColor: Color = Color.WHITE,
         bgColor: Color = Color(0,0,0,0)
     ) {
-
         val border = Border(
             charBorder = charBorder,
             charHorizontal = charHorizontal,
@@ -59,7 +58,6 @@ class Column(
             fgColor = fgColor,
             bgColor = bgColor
         )
-
         layer.stringLayer.append(border.content)
     }
 
