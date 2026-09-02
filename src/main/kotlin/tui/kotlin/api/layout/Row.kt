@@ -1,7 +1,9 @@
 package tui.kotlin.layout
 
 import tui.kotlin.TermManager
-import tui.kotlin.Layer 
+import tui.kotlin.Layer
+import tui.kotlin.core.component.Canvas
+import java.awt.Color
 
 class Row(
 
@@ -11,12 +13,19 @@ class Row(
 
 ) : Layout {
 
-    override fun canvas(charCanvas: Char) {
+    val dimension = termManager.getTerminalDimension()
 
-        val (heigth, width) = termManager.getTerminalDimension()
-
-        val canvas = charCanvas.toString().repeat(heigth.times(width))
-        layer.stringLayer.insert(0, canvas)
+    // component canvas
+    override fun buildCanvas(
+        charCanvas: Char,
+        fgColor: Color,
+        bgColor: Color
+    ) {
+        val canvas = Canvas(
+            charCanvas = charCanvas,
+            termSize = dimension
+        ).buildCanvas(fgColor, bgColor)
+        layer.stringLayer.insert(0, canvas.content)
     }
 
 }

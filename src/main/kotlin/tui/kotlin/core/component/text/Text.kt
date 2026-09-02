@@ -1,4 +1,4 @@
-package tui.kotlin.component
+package tui.kotlin.core.component
 
 import tui.kotlin.navigation.Cursor
 import tui.kotlin.style.CharStyle

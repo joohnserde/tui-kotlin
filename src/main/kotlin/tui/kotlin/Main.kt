@@ -7,6 +7,12 @@ fun main() {
 
     val homeScreen = Column()
     homeScreen.apply {
+        buildCanvas(
+            charCanvas = ' ',
+            fgColor = Color.DARK_GRAY,
+            bgColor = Color.DARK_GRAY
+        )
+
         border(
             charHorizontal = '█',
             charVertical = '█',

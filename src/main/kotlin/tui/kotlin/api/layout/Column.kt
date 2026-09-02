@@ -3,7 +3,8 @@ package tui.kotlin.layout
 import tui.kotlin.Arrangement
 import tui.kotlin.TermManager
 import tui.kotlin.Layer
-import tui.kotlin.component.Text
+import tui.kotlin.core.component.Text
+import tui.kotlin.core.component.Canvas
 import tui.kotlin.core.component.Border
 import tui.kotlin.navigation.Cursor
 import tui.kotlin.layout.Layout
@@ -22,13 +23,18 @@ class Column(
     val dimension = termManager.getTerminalDimension()
 
     // component canvas
-    override fun canvas(charCanvas: Char) {
-        layer.stringLayer.insert(0, 
-            charCanvas.toString().repeat(
-                dimension.first.times(dimension.second)
-            )
-        )
+    override fun buildCanvas(
+        charCanvas: Char,
+        fgColor: Color,
+        bgColor: Color
+    ) {
+        val canvas = Canvas(
+            charCanvas = charCanvas,
+            termSize = dimension
+        ).buildCanvas(fgColor, bgColor)
+        layer.stringLayer.insert(0, canvas.content)
     }
+
 
     // border
     fun border(
