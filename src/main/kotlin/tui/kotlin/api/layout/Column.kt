@@ -24,7 +24,7 @@ class Column(
 
     private var canvas: Canvas = Canvas(dimension)
 
-    fun buildCanvas() {
+    override fun buildCanvas() {
         val canvas = canvas.buildCanvas()
         layer.stringLayer.insert(0, canvas.content)
     }

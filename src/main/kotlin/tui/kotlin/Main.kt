@@ -9,16 +9,14 @@ fun main() {
     homeScreen.apply {
 
         canvas(
-            charCanvas = '╳',
-            fgColor = Color.WHITE,
+            charCanvas = '▓',
+            fgColor = Color(0, 0, 156),
             bgColor = Color.BLUE
         )
 
-        buildCanvas()
-
         border(
-            charHorizontal = '█',
-            charVertical = '█',
+            charHorizontal = '▞',
+            charVertical = '▞',
             charTopLeft = 'L',
             charTopRight = 'R',
             charBottomLeft = 'L',

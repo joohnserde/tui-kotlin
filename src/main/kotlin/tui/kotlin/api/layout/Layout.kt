@@ -7,4 +7,6 @@ import java.awt.Color
 interface Layout {
 
     val layer: Layer
+
+    fun buildCanvas()
 }
