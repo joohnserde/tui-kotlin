@@ -5,6 +5,7 @@ import tui.kotlin.Layer
 import tui.kotlin.core.component.Canvas
 import java.awt.Color
 
+/*
 class Row(
 
     override val layer: Layer,
@@ -28,4 +29,4 @@ class Row(
         layer.stringLayer.insert(0, canvas.content)
     }
 
-}
+}*/

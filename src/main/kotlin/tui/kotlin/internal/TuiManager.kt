@@ -14,15 +14,9 @@ class TuiManager(
     fun write(
         layout: Layout,
         clearScreen: Boolean = true,
-        buildCanvas: Boolean = true
     ) {
         writeMode(layout)
         if (clearScreen) TermManager().clearScreen()
-        if (buildCanvas) layout.buildCanvas(
-            charCanvas = ' ',
-            fgColor = Color.BLUE,
-            bgColor = Color.BLUE
-        )
         normalMode(layout)
         println(layout.layer.stringLayer)
     }

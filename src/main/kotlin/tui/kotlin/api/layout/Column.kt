@@ -22,17 +22,26 @@ class Column(
 
     val dimension = termManager.getTerminalDimension()
 
-    // component canvas
-    override fun buildCanvas(
-        charCanvas: Char,
-        fgColor: Color,
-        bgColor: Color
-    ) {
-        val canvas = Canvas(
-            charCanvas = charCanvas,
-            termSize = dimension
-        ).buildCanvas(fgColor, bgColor)
+    private var canvas: Canvas = Canvas(dimension)
+
+    fun buildCanvas() {
+        val canvas = canvas.buildCanvas()
         layer.stringLayer.insert(0, canvas.content)
+    }
+
+    // canvas
+    fun canvas(
+        buildCanvas: Boolean = true,
+        charCanvas: Char = ' ',
+        fgColor: Color = Color(0,0,0,0),
+        bgColor: Color = Color(0,0,0,0)
+    ) {
+        canvas = canvas.updateCanvas(
+            charCanvas = charCanvas,
+            termSize = dimension,
+            fgColor = fgColor,
+            bgColor = bgColor
+        )
     }
 
 
