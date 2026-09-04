@@ -3,7 +3,8 @@ package tui.kotlin.layout
 import tui.kotlin.Arrangement
 import tui.kotlin.TermManager
 import tui.kotlin.Layer
-import tui.kotlin.component.Text
+import tui.kotlin.core.component.Text
+import tui.kotlin.core.component.Canvas
 import tui.kotlin.core.component.Border
 import tui.kotlin.navigation.Cursor
 import tui.kotlin.layout.Layout
@@ -21,14 +22,28 @@ class Column(
 
     val dimension = termManager.getTerminalDimension()
 
-    // component canvas
-    override fun canvas(charCanvas: Char) {
-        layer.stringLayer.insert(0, 
-            charCanvas.toString().repeat(
-                dimension.first.times(dimension.second)
-            )
+    private var canvas: Canvas = Canvas(dimension)
+
+    override fun buildCanvas() {
+        val canvas = canvas.buildCanvas()
+        layer.stringLayer.insert(0, canvas.content)
+    }
+
+    // canvas
+    fun canvas(
+        buildCanvas: Boolean = true,
+        charCanvas: Char = ' ',
+        fgColor: Color = Color(0,0,0,0),
+        bgColor: Color = Color(0,0,0,0)
+    ) {
+        canvas = canvas.updateCanvas(
+            charCanvas = charCanvas,
+            termSize = dimension,
+            fgColor = fgColor,
+            bgColor = bgColor
         )
     }
+
 
     // border
     fun border(
@@ -39,11 +54,10 @@ class Column(
         charTopRight: Char = '#',
         charBottomLeft: Char = '#',
         charBottomRight: Char = '#',
-        arrangement: Arrangement,
+        arrangement: Arrangement = Arrangement.FULL,
         fgColor: Color = Color.WHITE,
         bgColor: Color = Color(0,0,0,0)
     ) {
-
         val border = Border(
             charBorder = charBorder,
             charHorizontal = charHorizontal,
@@ -59,7 +73,6 @@ class Column(
             fgColor = fgColor,
             bgColor = bgColor
         )
-
         layer.stringLayer.append(border.content)
     }
 

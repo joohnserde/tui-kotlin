@@ -7,9 +7,16 @@ fun main() {
 
     val homeScreen = Column()
     homeScreen.apply {
+
+        canvas(
+            charCanvas = '▓',
+            fgColor = Color(0, 0, 156),
+            bgColor = Color.BLUE
+        )
+
         border(
-            charHorizontal = '█',
-            charVertical = '█',
+            charHorizontal = '▞',
+            charVertical = '▞',
             charTopLeft = 'L',
             charTopRight = 'R',
             charBottomLeft = 'L',
@@ -25,7 +32,8 @@ fun main() {
 
         text(
             textString = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut neque nunc. Duis sed turpis nec tellus pellentesque cursus.",
-            offset = Offset(3, 4)
+            offset = Offset(8, 4),
+            bgColor = Color.BLUE
         )
     }
     TuiManager().write(homeScreen)
